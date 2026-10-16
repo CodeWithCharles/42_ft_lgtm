@@ -8,6 +8,12 @@ _Mis à jour le 2026-10-16._
 - **Fichiers** : `Makefile` (help, deps, cluster, namespaces, dns, down, up), `k8s/namespaces.yaml`, `README.md` (brouillon, sections Description / Instructions / Resources), `.ai/`, `CLAUDE.md`.
 - **À ajouter au README** : `sudo apt install make` en prérequis (une Debian neuve n'a pas toujours `make`) ; mention que Claude peut écrire des fichiers sur demande explicite (section AI).
 
+## Quiz Phase 0 (2026-10-16)
+- Q1 chemin requête → Traefik : ❌ réponse donnée par Claude (`/etc/hosts` → 127.0.0.1:80 → Docker publie vers `k3d-lgtm-serverlb` → nœud → ServiceLB `svclb-traefik` → pod Traefik). **Point faible**, déjà vu en D10 : à retravailler en Phase 1 avec la première Ingress (`grafana.lgtm.local`).
+- Q2 namespaces : ✅ (groupent, n'isolent pas ; l'isolation = NetworkPolicy).
+- Q3 `/etc/hosts` vs DNS, pas de ports : 🟡 manquaient mDNS (`.local`) et le routage par en-tête `Host` (virtual hosting).
+- Q4 idempotence : ✅ ; ajouter le mécanisme déclaratif (`kubectl apply`) à côté de « vérifier puis agir ».
+
 ## Leçons de la Phase 0 (pièges rencontrés)
 - **Nœud Ready ≠ cluster prêt** : k3s installe Traefik de façon asynchrone (HelmChart → helm-controller → Job). `make cluster` attend `--for=create` puis `rollout status` sur `deployment/traefik`.
 - **Ordre de `make down`** : `--registry-use` branche le registry sur le réseau du cluster ; supprimer le cluster d'abord laisse le réseau `k3d-lgtm` orphelin, et k3d le traite ensuite comme externe (ne le supprime plus). Ordre retenu : registry puis cluster.
