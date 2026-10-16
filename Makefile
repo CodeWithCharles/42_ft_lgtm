@@ -30,7 +30,7 @@ help: ## Show this help
 		awk 'BEGIN {FS = ":.*## "} {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
 
 # ------------------------------- Orchestration ------------------------------ #
-up: deps cluster dns ## Install and deploy everything (default target)
+up: deps cluster namespaces dns ## Install and deploy everything (default target)
 
 # ---------------------------------- Phase 0 --------------------------------- #
 deps: check-os base-packages docker k3d kubectl helm ## Install host tools (Debian 12 only)
@@ -112,7 +112,28 @@ helm: ## Install Helm $(HELM_VERSION)
 	fi
 
 cluster: ## Create the k3d registry and cluster
-	@echo "cluster: TODO (next-steps, step 8)"
+	@if k3d registry list k3d-$(REGISTRY_NAME) >/dev/null 2>&1; then \
+			echo "Registry k3d-$(REGISTRY_NAME) already exists"; \
+	else \
+			k3d registry create $(REGISTRY_NAME) --port $(REGISTRY_PORT); \
+	fi
+	@if k3d cluster list $(CLUSTER_NAME) >/dev/null 2>&1; then \
+			echo "Cluster $(CLUSTER_NAME) already exists"; \
+	else \
+			k3d cluster create $(CLUSTER_NAME) \
+					--image $(K3S_IMAGE) \
+					--servers 1 --agents 0 \
+					--registry-use k3d-$(REGISTRY_NAME):$(REGISTRY_PORT) \
+					--port "80:80@loadbalancer" \
+					--port "4001:4001/tcp@loadbalancer" \
+					--port "4001:4001/udp@loadbalancer" \
+					--wait; \
+	fi
+	@kubectl config use-context k3d-$(CLUSTER_NAME) >/dev/null
+	@kubectl wait --for=condition=Ready node --all --timeout=120s
+
+namespaces: ## Create the project namespaces
+	@kubectl apply -f k8s/namespaces.yaml
 
 dns: ## Add the *.lgtm.local entries to /etc/hosts
 	@echo "dns: TODO (next-steps, step 10)"

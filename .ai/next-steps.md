@@ -15,9 +15,9 @@ Mode mentor : tu écris le code, Claude guide et review.
    - Fini quand : la section est remplie, avec la date.
 6. ~~**`make help`**~~ ✅ (fait avec le squelette, étape 4) : liste les cibles avec une description.
    - Fini quand : `make help` affiche toutes les cibles.
-7. **`make deps`** : vérifie Debian 12 (échec clair sinon), installe `docker`, `k3d`, `kubectl`, `helm`, `curl` aux versions épinglées ; idempotent, en comparant la **version** installée (la VM de dev a des versions plus anciennes).
+7. ~~**`make deps`**~~ ✅ (19a40f9) : vérifie Debian 12 (échec clair sinon), installe `docker`, `k3d`, `kubectl`, `helm`, `curl` aux versions épinglées ; idempotent, en comparant la **version** installée (la VM de dev a des versions plus anciennes).
    - Fini quand : le lancer deux fois de suite ne réinstalle rien et ne casse rien.
-8. **`make cluster`** : registry k3d + cluster, port 80 → Traefik, port 4001 TCP/UDP mappé ; idempotent.
+8. ~~**`make cluster`**~~ ✅ : registry k3d + cluster, port 80 → Traefik, port 4001 TCP/UDP mappé ; idempotent.
    - Fini quand : `kubectl get nodes` est Ready et le registry répond.
 9. **Namespaces** : manifest dans `k8s/` pour `lgtm-app`, `observability`, `ipfs`, appliqué par une cible.
    - Fini quand : `kubectl get ns` les liste.
