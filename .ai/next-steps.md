@@ -7,7 +7,7 @@ Mode mentor : tu écris le code, Claude guide et review.
    - Fini quand : `git status` est propre.
 2. ~~**Relire `decisions.md`** et vérifier que tu sais dire chaque « Pourquoi » avec tes mots.~~ ✅ quiz du 2026-10-16 : D3, D5, D7, D1 répondus ; D10 (chemin d'une requête `lgtm.local` → pod) expliqué par Claude, à réécrire avec tes mots.
    - Fini quand : tu peux expliquer D1, D3, D5, D7, D10 sans relire.
-3. **Exigences de la VM** : noter Debian 12, 4 CPU / 8 Go / 30 Go (servira au README).
+3. ~~**Exigences de la VM**~~ ✅ dans le README (Instructions → Requirements) : noter Debian 12, 4 CPU / 8 Go / 30 Go (servira au README).
    - Fini quand : c'est écrit (brouillon de README ou notes).
 4. **Arborescence imposée** : `Makefile`, `README.md` (première ligne en italique), `backend/`, `frontend/`, `k8s/`, `dashboards/`.
    - Fini quand : `ls -la` correspond à celui du sujet.
