@@ -53,7 +53,7 @@ jamais requis par `make`).
 
 ---
 
-## Phase 0 — Fondations
+## Phase 0 — Fondations ✅ (terminée le 2026-10-16)
 
 **But :** un socle reproductible sur une Debian 12 neuve (D12).
 

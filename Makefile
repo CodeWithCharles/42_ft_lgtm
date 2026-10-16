@@ -23,7 +23,7 @@ SHELL			:= /bin/bash
 .SHELLFLAGS		:= -eu -o pipefail -c
 
 .DEFAULT_GOAL	:= up
-.PHONY: help up deps check-os base-packages docker k3d kubectl helm cluster dns down
+.PHONY: help up deps check-os base-packages docker k3d kubectl helm cluster namespaces dns down
 
 # ----------------------------------- Meta ----------------------------------- #
 help: ## Show this help
@@ -76,7 +76,7 @@ docker: ## Install Docker Engine (official apt repository)
 			exit 1; \
 	fi
 
-k3d: ## Install k3d $(K3D_VERSION)
+k3d: ## Install k3d (pinned version)
 	@if [ "$$(k3d version 2>/dev/null | awk 'NR==1 {print $$3}')" = "$(K3D_VERSION)" ]; then \
 			echo "k3d $(K3D_VERSION) already installed"; \
 	else \
@@ -87,7 +87,7 @@ k3d: ## Install k3d $(K3D_VERSION)
 			rm -f /tmp/k3d; \
 	fi
 
-kubectl: ## Install kubectl $(KUBECTL_VERSION)
+kubectl: ## Install kubectl (pinned version)
 	@if [ "$$(kubectl version --client 2>/dev/null | awk '/Client Version/ {print $$3}')" = "$(KUBECTL_VERSION)" ]; then \
 			echo "kubectl $(KUBECTL_VERSION) already installed"; \
 	else \
@@ -99,7 +99,7 @@ kubectl: ## Install kubectl $(KUBECTL_VERSION)
 			rm -f /tmp/kubectl; \
 	fi
 
-helm: ## Install Helm $(HELM_VERSION)
+helm: ## Install Helm (pinned version)
 	@if [ "$$(helm version --template '{{.Version}}' 2>/dev/null)" = "$(HELM_VERSION)" ]; then \
 			echo "Helm $(HELM_VERSION) already installed"; \
 	else \
@@ -130,6 +130,7 @@ cluster: ## Create the k3d registry and cluster
 					--port "4001:4001/udp@loadbalancer" \
 					--wait; \
 	fi
+	@kubectl config use-context k3d-$(CLUSTER_NAME) >/dev/null
 	@kubectl -n kube-system wait --for=create deployment/traefik --timeout=180s
 	@kubectl -n kube-system rollout status deployment/traefik --timeout=180s
 

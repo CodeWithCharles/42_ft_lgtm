@@ -72,4 +72,19 @@ api, compiler ──OTLP──▶ otel-collector ──▶ prometheus / tempo / 
 
 ## Commandes
 
-Aucun code n'existe encore. Tous les builds passent par Docker : l'hôte n'a besoin que de `docker`, `k3d`, `kubectl`, `helm`, `make`, `curl` (VM Debian 12). Cibles Makefile prévues : `help`, `deps`, `cluster`, `dns`, `observability`, `ipfs`, `build`, `deploy`, `demo`, `up` (cible par défaut), `down`, `clean`. HTTP uniquement. **Mettre à jour cette section** dès que les vraies commandes existent (build, `cargo test -p <crate> <nom_test>`, front…).
+Tous les builds passent par Docker : l'hôte n'a besoin que de `docker`, `k3d`, `kubectl`, `helm`, `make`, `curl` (VM Debian 12). HTTP uniquement.
+
+Cibles existantes (`make help`) :
+
+| Commande | Effet |
+|---|---|
+| `make` / `make up` | Tout installer et déployer (enchaîne les cibles ci-dessous) |
+| `make deps` | Vérifie Debian 12 ; installe docker, k3d, kubectl, helm aux versions épinglées (compare la version installée) |
+| `make cluster` | Registry `k3d-lgtm-registry:5000` + cluster k3d `lgtm` (1 nœud, ports 80 et 4001 tcp/udp), attend Traefik |
+| `make namespaces` | `kubectl apply -f k8s/namespaces.yaml` |
+| `make dns` | Ligne balisée `# ft_lgtm` dans `/etc/hosts` (`sudo`) |
+| `make down` | Supprime le registry **puis** le cluster (cet ordre évite un réseau `k3d-lgtm` orphelin) |
+
+Toutes les cibles sont idempotentes. Images : pousser vers `localhost:5000/<img>` depuis la VM, référencer `k3d-lgtm-registry:5000/<img>` dans les manifests.
+
+Cibles prévues : `observability`, `ipfs`, `build`, `deploy`, `demo`, `clean`. **Mettre à jour cette section** au fil des phases (build, `cargo test -p <crate> <nom_test>`, front…).
