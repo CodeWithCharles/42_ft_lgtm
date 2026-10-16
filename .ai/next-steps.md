@@ -19,9 +19,9 @@ Mode mentor : tu écris le code, Claude guide et review.
    - Fini quand : le lancer deux fois de suite ne réinstalle rien et ne casse rien.
 8. ~~**`make cluster`**~~ ✅ : registry k3d + cluster, port 80 → Traefik, port 4001 TCP/UDP mappé ; idempotent.
    - Fini quand : `kubectl get nodes` est Ready et le registry répond.
-9. **Namespaces** : manifest dans `k8s/` pour `lgtm-app`, `observability`, `ipfs`, appliqué par une cible.
+9. ~~**Namespaces**~~ ✅ : manifest dans `k8s/` pour `lgtm-app`, `observability`, `ipfs`, appliqué par une cible.
    - Fini quand : `kubectl get ns` les liste.
-10. **`make dns`** : bloc balisé dans `/etc/hosts` via `sudo`, idempotent.
+10. ~~**`make dns`**~~ ✅ : bloc balisé dans `/etc/hosts` via `sudo`, idempotent.
     - Fini quand : `getent hosts grafana.lgtm.local` → `127.0.0.1`, et relancer n'ajoute pas de doublon.
 11. **`make down`** et **`make up`** (cible par défaut) qui enchaîne ce qui existe.
     - Fini quand : `make down && make` remonte tout sans intervention.

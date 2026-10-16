@@ -7,6 +7,7 @@ CLUSTER_NAME	:= lgtm
 REGISTRY_NAME	:= lgtm-registry
 REGISTRY_PORT	:= 5000
 HOSTS			:= lgtm.local grafana.lgtm.local ipfs.lgtm.local
+HOSTS_LINE		:= 127.0.0.1 $(HOSTS) \# ft_lgtm
 
 # Pinned versions (see .ai/decisions.md)
 K3D_VERSION		:= v5.9.0
@@ -129,14 +130,29 @@ cluster: ## Create the k3d registry and cluster
 					--port "4001:4001/udp@loadbalancer" \
 					--wait; \
 	fi
-	@kubectl config use-context k3d-$(CLUSTER_NAME) >/dev/null
-	@kubectl wait --for=condition=Ready node --all --timeout=120s
+	@kubectl -n kube-system wait --for=create deployment/traefik --timeout=180s
+	@kubectl -n kube-system rollout status deployment/traefik --timeout=180s
 
 namespaces: ## Create the project namespaces
 	@kubectl apply -f k8s/namespaces.yaml
 
 dns: ## Add the *.lgtm.local entries to /etc/hosts
-	@echo "dns: TODO (next-steps, step 10)"
+	@if grep -qxF "$(HOSTS_LINE)" /etc/hosts; then \
+		echo "/etc/hosts already up to date"; \
+	else \
+		sudo sed -i '/# ft_lgtm$$/d' /etc/hosts; \
+		echo "$(HOSTS_LINE)" | sudo tee -a /etc/hosts >/dev/null; \
+		echo "Added to /etc/hosts: $(HOSTS_LINE)"; \
+	fi
 
 down: ## Delete the cluster and the registry
-	@echo "down: TODO (next-steps, step 11)"
+	@if k3d registry list k3d-$(REGISTRY_NAME) >/dev/null 2>&1; then \
+			k3d registry delete k3d-$(REGISTRY_NAME); \
+	else \
+			echo "Registry k3d-$(REGISTRY_NAME) does not exist"; \
+	fi
+	@if k3d cluster list $(CLUSTER_NAME) >/dev/null 2>&1; then \
+			k3d cluster delete $(CLUSTER_NAME); \
+	else \
+			echo "Cluster $(CLUSTER_NAME) does not exist"; \
+	fi
