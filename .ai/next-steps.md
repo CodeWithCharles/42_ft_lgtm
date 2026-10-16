@@ -9,7 +9,7 @@ Mode mentor : tu écris le code, Claude guide et review.
    - Fini quand : tu peux expliquer D1, D3, D5, D7, D10 sans relire.
 3. ~~**Exigences de la VM**~~ ✅ dans le README (Instructions → Requirements) : noter Debian 12, 4 CPU / 8 Go / 30 Go (servira au README).
    - Fini quand : c'est écrit (brouillon de README ou notes).
-4. **Arborescence imposée** : `Makefile`, `README.md` (première ligne en italique), `backend/`, `frontend/`, `k8s/`, `dashboards/`.
+4. ~~**Arborescence imposée**~~ ✅ (8524d5f, Makefile squelette ; reste : compléter `.gitignore`) : `Makefile`, `README.md` (première ligne en italique), `backend/`, `frontend/`, `k8s/`, `dashboards/`.
    - Fini quand : `ls -la` correspond à celui du sujet.
 5. **Choisir les versions** de k3d, k3s, kubectl, helm et les consigner dans « Versions épinglées » de `decisions.md`.
    - Fini quand : la section est remplie, avec la date.
