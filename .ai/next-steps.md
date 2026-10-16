@@ -3,9 +3,9 @@
 Détail de la Phase 0 de `roadmap.md`. Une étape = un petit pas vérifiable.
 Mode mentor : tu écris le code, Claude guide et review.
 
-1. **Commiter le travail de cadrage** (`CLAUDE.md`, `.gitignore`, `.ai/`).
+1. ~~**Commiter le travail de cadrage**~~ ✅ (07ccde9) (`CLAUDE.md`, `.gitignore`, `.ai/`).
    - Fini quand : `git status` est propre.
-2. **Relire `decisions.md`** et vérifier que tu sais dire chaque « Pourquoi » avec tes mots.
+2. ~~**Relire `decisions.md`** et vérifier que tu sais dire chaque « Pourquoi » avec tes mots.~~ ✅ quiz du 2026-10-16 : D3, D5, D7, D1 répondus ; D10 (chemin d'une requête `lgtm.local` → pod) expliqué par Claude, à réécrire avec tes mots.
    - Fini quand : tu peux expliquer D1, D3, D5, D7, D10 sans relire.
 3. **Exigences de la VM** : noter Debian 12, 4 CPU / 8 Go / 30 Go (servira au README).
    - Fini quand : c'est écrit (brouillon de README ou notes).
@@ -26,5 +26,7 @@ Mode mentor : tu écris le code, Claude guide et review.
 11. **`make down`** et **`make up`** (cible par défaut) qui enchaîne ce qui existe.
     - Fini quand : `make down && make` remonte tout sans intervention.
 12. **Mettre à jour** la section Commandes de `CLAUDE.md` et `state.md`.
+
+**En parallèle** : piste R (montée en Rust) de `roadmap.md`, hors du repo, à finir avant la Phase 2.
 
 Ensuite : Phase 1 (stack d'observabilité).

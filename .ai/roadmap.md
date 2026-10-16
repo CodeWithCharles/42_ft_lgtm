@@ -18,6 +18,7 @@ Chaque phase a un **critère de fin** (vérifiable) et une **check-list de soute
 
 | # | Phase | Livrable clé |
 |---|---|---|
+| R | Montée en Rust (en parallèle de 0–1) | Bases Rust + axum + Wasmtime maîtrisées avant la Phase 2 |
 | 0 | Fondations | VM documentée, arborescence, `make deps/cluster/dns` |
 | 1 | Observabilité | Grafana + Prometheus + Tempo + Loki + Collector provisionnés as-code |
 | 2 | Backend | `compiler` + `api` : compile et exécute dans la sandbox, limites testées |
@@ -27,6 +28,28 @@ Chaque phase a un **critère de fin** (vérifiable) et une **check-list de soute
 | 6 | Dashboards | 2 dashboards + exemplars + « Logs for this span » |
 | 7 | Bonus | Seulement si le mandatory est irréprochable |
 | 8 | Finitions | README, `make` sur VM neuve, `make demo`, prépa soutenance |
+
+---
+
+## Piste R — Montée en Rust (en parallèle des Phases 0 et 1)
+
+**But :** arriver à la Phase 2 en sachant écrire et défendre du Rust. Rust a été choisi
+pour l'apprendre (D1) ; les Phases 0 et 1 sont de l'infra pure (Makefile, Helm, YAML),
+c'est le moment de monter en compétence.
+
+Tout se fait **hors du repo** (ex. `~/rust-sandbox/`). `rustup` local est permis (D13 :
+jamais requis par `make`).
+
+1. **Le Rust Book** : ch. 1–10 (ownership, borrowing, structs/enums, `match`, gestion d'erreurs avec `Result` et `?`, traits et génériques), puis ch. 13 (closures, itérateurs) et ch. 16 (concurrence).
+2. **Async** : tutoriel tokio (tâches, `async`/`await`, `Arc`, sémaphore).
+3. **Mini-exercices** :
+   - axum : un endpoint `POST` qui reçoit et renvoie du JSON (serde), avec erreurs typées → codes HTTP ;
+   - un trait avec deux implémentations choisies à l'exécution (prépare `Toolchain`, D17) ;
+   - Wasmtime : compiler un hello world en `wasm32-wasip1`, l'exécuter depuis un programme Rust en capturant stdout, puis ajouter `StoreLimits` et une epoch deadline et les voir se déclencher (prototype jetable du runner, D3).
+
+**Critère de fin (avant la Phase 2) :** tu écris sans aide un handler axum qui renvoie du JSON et propage les erreurs avec `?` ; tu expliques ownership/borrowing, traits, `async`/`await` ; ton prototype Wasmtime coupe une boucle infinie et une allocation trop grosse.
+
+**Soutenance :** ownership et borrow checker (pourquoi pas de GC) ; `Result` vs exceptions ; traits vs interfaces ; ce que fait le runtime tokio.
 
 ---
 

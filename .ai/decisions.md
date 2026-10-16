@@ -63,8 +63,9 @@ _À remplir au fil des phases._
 
 ### D1 — Backend en Rust (axum + tokio) (Q3)
 - Alternatives : Go (recommandé par la roadmap initiale).
-- Pourquoi : Wasmtime est écrit en Rust, son API Rust est l'API de première classe : fuel/epoch, `StoreLimits` (mémoire), pipes WASI (capture de sortie) s'utilisent sans couche FFI. Même langage que le code utilisateur : un seul écosystème.
-- Compromis : OTel Rust moins mature que Go (API qui bouge entre versions), temps de compilation, courbe d'apprentissage async/tokio.
+- Pourquoi (motivation réelle) : **apprendre Rust**, que l'utilisateur ne connaît pas encore. Le projet sert de terrain d'apprentissage.
+- Vérification d'adéquation au sujet, faite avant de trancher : Wasmtime est écrit en Rust, son API Rust est l'API de première classe : epoch, `StoreLimits` (mémoire), pipes WASI (capture de sortie) s'utilisent sans couche FFI. Même langage que le code utilisateur : un seul écosystème.
+- Compromis : OTel Rust moins mature que Go (API qui bouge entre versions), temps de compilation, courbe d'apprentissage (langage nouveau + async/tokio) qui pèse sur le planning.
 
 ### D18 — Workspace Cargo `backend/` : crates `api`, `compiler`, `telemetry` (Q17)
 - Pourquoi : la config OTel (tracer, meter, logs, propagation `traceparent`) est écrite une fois dans `telemetry` et partagée ; tests ciblés via `cargo test -p <crate>`.
