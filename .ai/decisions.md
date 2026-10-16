@@ -55,7 +55,18 @@
 - Pourquoi : l'API Rust d'OTel change souvent ; l'épinglage garantit « marche sur VM neuve ».
 
 #### Versions épinglées
-_À remplir au fil des phases._
+
+**Phase 0 — outils hôte** (proposés par Claude, validés par l'utilisateur le 2026-10-16, Helm 4 retenu)
+
+| Outil | Version | Pourquoi cette version |
+|---|---|---|
+| k3d | `v5.9.0` | Dernière stable (2026-06-02). |
+| k3s (image `rancher/k3s`) | `v1.36.5-k3s1` | Canal **stable** de k3s (le canal `latest` est en v1.37). Passé à k3d via `--image`, sinon k3d prend son défaut. |
+| kubectl | `v1.36.5` | Même mineure que k3s : la politique de *version skew* tolère ±1 mineure, s'aligner évite toute question. |
+| Helm | `v4.3.1` | Helm 4 = majeure courante. Helm 3 n'a plus de bug fixes depuis le 2026-09-09 et plus de patchs de sécurité après le 2027-02-10 (blog Helm). Helm 4 reste compatible avec les charts `apiVersion: v2`. |
+| Docker Engine | non épinglé | Installé depuis le dépôt apt officiel de Docker. Épingler un paquet apt exact casse dès que le dépôt retire la version ; Docker est un socle stable, le risque est faible. |
+
+Note : la VM de dev a des versions plus anciennes déjà installées (k3d 5.8.3, kubectl 1.34.1, Helm 3.19) → `make deps` doit vérifier la **version**, pas seulement la présence de l'outil.
 
 ---
 

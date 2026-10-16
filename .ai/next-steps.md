@@ -11,11 +11,11 @@ Mode mentor : tu écris le code, Claude guide et review.
    - Fini quand : c'est écrit (brouillon de README ou notes).
 4. ~~**Arborescence imposée**~~ ✅ (8524d5f, Makefile squelette ; reste : compléter `.gitignore`) : `Makefile`, `README.md` (première ligne en italique), `backend/`, `frontend/`, `k8s/`, `dashboards/`.
    - Fini quand : `ls -la` correspond à celui du sujet.
-5. **Choisir les versions** de k3d, k3s, kubectl, helm et les consigner dans « Versions épinglées » de `decisions.md`.
+5. ~~**Choisir les versions**~~ ✅ (voir « Versions épinglées ») de k3d, k3s, kubectl, helm et les consigner dans « Versions épinglées » de `decisions.md`.
    - Fini quand : la section est remplie, avec la date.
-6. **`make help`** : liste les cibles avec une description.
+6. ~~**`make help`**~~ ✅ (fait avec le squelette, étape 4) : liste les cibles avec une description.
    - Fini quand : `make help` affiche toutes les cibles.
-7. **`make deps`** : vérifie Debian 12 (échec clair sinon), installe `docker`, `k3d`, `kubectl`, `helm`, `curl` aux versions épinglées ; idempotent.
+7. **`make deps`** : vérifie Debian 12 (échec clair sinon), installe `docker`, `k3d`, `kubectl`, `helm`, `curl` aux versions épinglées ; idempotent, en comparant la **version** installée (la VM de dev a des versions plus anciennes).
    - Fini quand : le lancer deux fois de suite ne réinstalle rien et ne casse rien.
 8. **`make cluster`** : registry k3d + cluster, port 80 → Traefik, port 4001 TCP/UDP mappé ; idempotent.
    - Fini quand : `kubectl get nodes` est Ready et le registry répond.

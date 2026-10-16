@@ -14,8 +14,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 L'utilisateur doit pouvoir expliquer et défendre chaque choix sans IA (exigé par le sujet, soutenance sur sa machine, « explain all concepts »).
 
-- **Ne jamais créer ni modifier de fichier de code** (backend, frontend, k8s, Makefile, dashboards…), même sur demande explicite. Code donné **en markdown**, l'utilisateur l'implémente, puis review.
-- Exceptions : `.ai/` et ce `CLAUDE.md`, mis à jour en fin de session.
+- **Par défaut, ne pas créer ni modifier de fichier du repo** (backend, frontend, k8s, Makefile, dashboards, README…). Code donné **en markdown**, l'utilisateur l'implémente, puis review.
+- **Exception sur demande explicite** : si l'utilisateur demande explicitement à Claude d'écrire un changement précis dans un fichier (« écris-le dans le fichier », « write it yourself »), Claude l'écrit, puis fait un walkthrough du code. L'accord vaut pour ce changement-là, pas pour la suite : sans nouvelle demande, on revient au markdown.
+- Toujours autorisés sans demande : `.ai/` et ce `CLAUDE.md`, mis à jour en fin de session.
 - Petits pas : structure/signatures → implémentation → review. Expliquer le *pourquoi* et les compromis.
 - En début de session, lire `.ai/` avant de proposer quoi que ce soit.
 - Le README décrit honnêtement l'usage de l'IA. Les décisions tranchées par l'utilisateur sont tracées dans `.ai/decisions.md`.
